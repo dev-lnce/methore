@@ -18,12 +18,13 @@ import {
   WifiOff
 } from 'lucide-react';
 import { playHandheldBuzzer, playAckChime } from '../utils/audio';
+import { api } from '../services/api';
 
 const RESIDENT_PRESETS = [
-  { user_id: 'RES-1042', device_id: 'HND-042', name: 'Morgan Santos', area: '42 Mabini St, Purok 2 Plaza', lat: 13.9842, lon: 121.0518 },
-  { user_id: 'RES-1019', device_id: 'HND-019', name: 'Taylor Cruz', area: '15 Rizal Ave, Purok 3 Market', lat: 13.9855, lon: 121.0530 },
-  { user_id: 'RES-1088', device_id: 'HND-088', name: 'Casey Navarro', area: '8 Bonifacio St, Purok 1 Hallway', lat: 13.9830, lon: 121.0510 },
-  { user_id: 'UNK-09', device_id: 'HND-999', name: 'Unregistered Roamer', area: 'Purok 4 Market Outpost', lat: 13.9821, lon: 121.0502 }
+  { user_id: 'RES-1012', device_id: 'HND-042', name: 'Morgan Santos', area: '42 Mabini St, Purok 2 Plaza', lat: 13.9412, lon: 121.1624 },
+  { user_id: 'RES-1009', device_id: 'HND-009', name: 'Taylor Cruz', area: '15 Rizal Ave, Purok 3 Market', lat: 13.9435, lon: 121.1650 },
+  { user_id: 'RES-1010', device_id: 'HND-010', name: 'Casey Navarro', area: '8 Bonifacio St, Purok 1', lat: 13.9422, lon: 121.1600 },
+  { user_id: 'UNK-09', device_id: 'HND-999', name: 'Unregistered Citizen', area: 'Purok 4 Outpost', lat: 13.9400, lon: 121.1610 }
 ];
 
 export default function HandheldSimulatorPage() {
@@ -98,29 +99,23 @@ export default function HandheldSimulatorPage() {
       setOledState('to_mesh');
     }, 450);
 
-    // Call backend API
+    // Call API via dual-mode service
     try {
       const now = new Date().toISOString();
-      const res = await fetch('/api/packets/ingest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: selectedPreset.user_id,
-          device_id: selectedPreset.device_id,
-          emergency_type: selectedCategory === 'traffic' ? 'traffic_accident' : selectedCategory,
-          latitude: selectedPreset.lat + (Math.random() - 0.5) * 0.001,
-          longitude: selectedPreset.lon + (Math.random() - 0.5) * 0.001,
-          area_name: selectedPreset.area,
-          gps_status: gpsFixState,
-          report_time: now,
-          hop_count: hopCount,
-          rssi: -72 - (hopCount * 6),
-          snr: Number((8.5 - hopCount * 1.2).toFixed(1)),
-          notes: `Tactical SOS trigger from Handheld device ${selectedPreset.device_id}`
-        })
+      const data = await api.packets.ingest({
+        user_id: selectedPreset.user_id,
+        device_id: selectedPreset.device_id,
+        emergency_type: selectedCategory === 'traffic' ? 'traffic_accident' : selectedCategory,
+        latitude: selectedPreset.lat + (Math.random() - 0.5) * 0.001,
+        longitude: selectedPreset.lon + (Math.random() - 0.5) * 0.001,
+        area_name: selectedPreset.area,
+        gps_status: gpsFixState,
+        report_time: now,
+        hop_count: hopCount,
+        rssi: -72 - (hopCount * 6),
+        snr: Number((8.5 - hopCount * 1.2).toFixed(1)),
+        notes: `Tactical SOS trigger from Handheld device ${selectedPreset.device_id}`
       });
-
-      const data = await res.json();
 
       setTimeout(() => {
         setOledState('delivered');
@@ -169,12 +164,10 @@ export default function HandheldSimulatorPage() {
     <div className="flex flex-col items-center justify-center w-full py-4 animate-in fade-in duration-200">
       {/* Device Shell Context Banner */}
       <div className="mb-4 text-center max-w-sm">
-        <span className="font-mono text-xs font-bold text-slate-700 bg-white border border-slate-200 px-3 py-1 rounded-full shadow-sm">
-          915 MHz Rugged Citizen Handset Simulator
+        <span className="font-mono text-xs font-bold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3.5 py-1.5 rounded-full shadow-sm inline-flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span>915 MHz Rugged Citizen Handset Simulator</span>
         </span>
-        <p className="text-xs text-slate-500 mt-1">
-          Tactical interface accessible within 30s during blackouts or natural disasters
-        </p>
       </div>
 
       {/* Main 360px Rugged Handset Device Chassis */}

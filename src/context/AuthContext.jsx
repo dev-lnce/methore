@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import api from '../services/api';
 
 const AuthContext = createContext(null);
 
@@ -44,18 +45,7 @@ export function AuthProvider({ children }) {
   const login = async (username, password) => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Authentication failed');
-      }
-
-      const data = await res.json();
+      const data = await api.auth.login(username, password);
       setUser(data.user);
       setToken(data.token);
       return data.user;

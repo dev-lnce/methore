@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AudioAlertProvider } from './context/AudioAlertContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 import AppLayout from './components/layout/AppLayout';
 import LoginPage from './pages/LoginPage';
@@ -37,8 +38,9 @@ function RoleRoute({ allowedRoles, children }) {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AudioAlertProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <AudioAlertProvider>
         <BrowserRouter>
           <Routes>
             {/* Public local login route */}
@@ -100,5 +102,6 @@ export default function App() {
         </BrowserRouter>
       </AudioAlertProvider>
     </AuthProvider>
+    </ThemeProvider>
   );
 }

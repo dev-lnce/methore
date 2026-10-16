@@ -5,33 +5,33 @@ const STATUS_CONFIG = {
   New: {
     label: 'New',
     icon: AlertCircle,
-    badgeClass: 'bg-red-50 text-red-700 border-red-200',
-    dotClass: 'bg-red-600 animate-pulse',
+    badgeClass: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800/70',
+    dotClass: 'bg-red-600 dark:bg-red-400 animate-pulse',
     isUrgent: true
   },
   Acknowledged: {
     label: 'Acknowledged',
     icon: Clock,
-    badgeClass: 'bg-amber-50 text-amber-800 border-amber-200',
-    dotClass: 'bg-amber-500'
+    badgeClass: 'bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800/70',
+    dotClass: 'bg-amber-500 dark:bg-amber-400'
   },
   Responding: {
     label: 'Responding',
     icon: Navigation,
-    badgeClass: 'bg-blue-50 text-blue-800 border-blue-200',
-    dotClass: 'bg-blue-600'
+    badgeClass: 'bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-800/70',
+    dotClass: 'bg-blue-600 dark:bg-blue-400'
   },
   Resolved: {
     label: 'Resolved',
     icon: CheckCircle2,
-    badgeClass: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-    dotClass: 'bg-emerald-600'
+    badgeClass: 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800/70',
+    dotClass: 'bg-emerald-600 dark:bg-emerald-400'
   },
   'False alarm': {
     label: 'False Alarm',
     icon: XCircle,
-    badgeClass: 'bg-slate-100 text-slate-700 border-slate-200',
-    dotClass: 'bg-slate-400'
+    badgeClass: 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700',
+    dotClass: 'bg-slate-400 dark:bg-slate-500'
   }
 };
 
