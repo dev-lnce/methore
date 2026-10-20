@@ -23,6 +23,7 @@ import BarangayMap from '../components/map/BarangayMap';
 import { useAuth } from '../context/AuthContext';
 import { useAudioAlert } from '../context/AudioAlertContext';
 import api from '../services/api';
+import { formatClock } from '../utils/time';
 
 export default function IncidentDetailPage() {
   const { id } = useParams();
@@ -488,7 +489,7 @@ export default function IncidentDetailPage() {
                           {log.changed_by_name} ({log.changed_by_role})
                         </span>
                         <span className="font-mono">
-                          {log.timestamp ? log.timestamp.slice(11, 19) : '--:--:--'}
+                          {formatClock(log.timestamp)}
                         </span>
                       </div>
                       <p className="text-slate-700 dark:text-slate-300 mt-1 leading-snug">

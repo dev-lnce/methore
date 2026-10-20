@@ -10,6 +10,7 @@ import EmergencyBadge from '../components/common/EmergencyBadge';
 import StatusBadge from '../components/common/StatusBadge';
 import GpsBadge from '../components/common/GpsBadge';
 import api from '../services/api';
+import { formatClock, formatDate } from '../utils/time';
 
 export default function IncidentHistoryPage() {
   const [incidents, setIncidents] = useState([]);
@@ -202,8 +203,8 @@ export default function IncidentHistoryPage() {
                       <div className="flex flex-col">
                         <span className="font-bold text-slate-900 dark:text-slate-100">{inc.incident_code}</span>
                         <span className="text-[11px] text-slate-400">
-                          {inc.report_time ? inc.report_time.slice(0, 10) : '2026-10-16'} •{' '}
-                          {inc.receipt_time ? inc.receipt_time.slice(11, 16) : '--:--'}
+                          {formatDate(inc.report_time || inc.receipt_time)} •{' '}
+                          {formatClock(inc.receipt_time, { seconds: false })}
                         </span>
                       </div>
                     </td>

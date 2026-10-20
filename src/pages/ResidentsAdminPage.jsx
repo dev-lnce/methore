@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import EmergencyBadge from '../components/common/EmergencyBadge';
 import api from '../services/api';
+import { formatClock } from '../utils/time';
 
 export default function ResidentsAdminPage() {
   const [residents, setResidents] = useState([]);
@@ -228,7 +229,7 @@ export default function ResidentsAdminPage() {
                     <div className="flex items-start md:items-center gap-2.5 min-w-0">
                       <EmergencyBadge type={item.emergency_type} />
                       <p className="text-xs text-slate-800 dark:text-slate-200 leading-tight">
-                        Today <span className="font-mono font-semibold">{item.receipt_time?.slice(11, 19)}</span> •{' '}
+                        Today <span className="font-mono font-semibold">{formatClock(item.receipt_time)}</span> •{' '}
                         Device <strong className="font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-900 dark:text-slate-100">{item.device_id}</strong>{' '}
                         (User ID: <span className="font-mono text-rose-600 dark:text-rose-400 font-bold">{item.user_id}</span>) • {item.area_name}
                       </p>
@@ -467,6 +468,7 @@ export default function ResidentsAdminPage() {
                               onClick={() => setEditingResident({ ...r })}
                               className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                               title="Edit Resident"
+                              aria-label={`Edit ${r.full_name}`}
                               type="button"
                             >
                               <Edit3 className="w-3.5 h-3.5" />
@@ -480,6 +482,7 @@ export default function ResidentsAdminPage() {
                                   : 'text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40'
                               }`}
                               title={isActive ? 'Deactivate Device' : 'Reactivate Device'}
+                              aria-label={isActive ? `Deactivate device for ${r.full_name}` : `Reactivate device for ${r.full_name}`}
                               type="button"
                             >
                               <Power className="w-3.5 h-3.5" />

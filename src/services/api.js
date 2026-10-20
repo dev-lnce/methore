@@ -1137,12 +1137,14 @@ export const api = {
           list = list.filter(i => (i.report_time || i.receipt_time) <= date_to + 'T23:59:59');
         }
 
+        // Compare as instants: seed times are +08:00 and runtime ones are UTC, so string order is wrong.
+        const instant = (i) => new Date(i.receipt_time || i.report_time).getTime();
         if (sort === 'oldest') {
-          list.sort((a, b) => (a.receipt_time || a.report_time).localeCompare(b.receipt_time || b.report_time));
+          list.sort((a, b) => instant(a) - instant(b));
         } else if (sort === 'status') {
           list.sort((a, b) => a.status.localeCompare(b.status));
         } else {
-          list.sort((a, b) => (b.receipt_time || b.report_time).localeCompare(a.receipt_time || a.report_time));
+          list.sort((a, b) => instant(b) - instant(a));
         }
 
         const allIncidents = getStorage('incidents', INITIAL_INCIDENTS);

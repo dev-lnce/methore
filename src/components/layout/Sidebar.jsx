@@ -41,6 +41,7 @@ export default function Sidebar({ isCollapsed: propCollapsed, setIsCollapsed: pr
   };
 
   const handleResetDemo = () => {
+    if (!window.confirm('Reset demo data? This deletes every incident, resident change and test log you have created and restores the original sample set.')) return;
     resetDemoData();
     setToastMessage('Demo dataset restored to initial state');
     setTimeout(() => {
