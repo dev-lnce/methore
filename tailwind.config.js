@@ -22,6 +22,9 @@ export default {
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        lcd: ['VT323', 'ui-monospace', '"Courier New"', 'monospace'],
+        device: ['"Barlow Condensed"', '"Arial Narrow"', 'system-ui', 'sans-serif'],
+        callout: ['Barlow', 'system-ui', '-apple-system', 'sans-serif'],
       },
       boxShadow: {
         card: '0 4px 20px -2px rgba(15, 23, 42, 0.04)',
